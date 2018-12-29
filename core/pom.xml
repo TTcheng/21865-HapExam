@@ -82,7 +82,7 @@
         <dependency>
             <groupId>com.hand</groupId>
             <artifactId>hap-core-db</artifactId>
-            <version>3.5.4-RELEASE</version>
+            <version>${hap.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
