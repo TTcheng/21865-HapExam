@@ -30,7 +30,7 @@
             AND CUSTOMER_ID = #{customerId}
         </if>
         <if test="customerName!=null">
-            AND CUSTOMER_NAME = #{customerName}
+            AND CUSTOMER_NAME LIKE '%${customerName}%'
         </if>
         <if test="customerNumber!=null">
             AND CUSTOMER_NUMBER = #{customerNumber}
