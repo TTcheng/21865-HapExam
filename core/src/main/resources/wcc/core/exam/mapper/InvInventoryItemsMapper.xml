@@ -3,15 +3,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="wcc.core.exam.mapper.InvInventoryItemsMapper">
     <resultMap id="BaseResultMap" type="wcc.core.exam.dto.InvInventoryItems">
-        <result column="INVENTORY_ITEM_ID" property="inventoryItemId" jdbcType="DECIMAL" />
-        <result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR" />
-        <result column="ITEM_UOM" property="itemUom" jdbcType="VARCHAR" />
-        <result column="ITEM_DESCRIPTION" property="itemDescription" jdbcType="VARCHAR" />
-        <result column="ORDER_FLAG" property="orderFlag" jdbcType="VARCHAR" />
-        <result column="START_ACTIVE_DATE" property="startActiveDate" jdbcType="DATE" />
-        <result column="END_ACTIVE_DATE" property="endActiveDate" jdbcType="DATE" />
-        <result column="ENABLED_FLAG" property="enabledFlag" jdbcType="VARCHAR" />
+        <result column="INVENTORY_ITEM_ID" property="inventoryItemId" jdbcType="DECIMAL"/>
+        <result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="ITEM_UOM" property="itemUom" jdbcType="VARCHAR"/>
+        <result column="ITEM_DESCRIPTION" property="itemDescription" jdbcType="VARCHAR"/>
+        <result column="ORDER_FLAG" property="orderFlag" jdbcType="VARCHAR"/>
+        <result column="START_ACTIVE_DATE" property="startActiveDate" jdbcType="DATE"/>
+        <result column="END_ACTIVE_DATE" property="endActiveDate" jdbcType="DATE"/>
+        <result column="ENABLED_FLAG" property="enabledFlag" jdbcType="VARCHAR"/>
     </resultMap>
 
 
+    <select id="select" resultMap="BaseResultMap">
+        SELECT CREATED_BY,
+        CREATION_DATE,
+        LAST_UPDATED_BY,
+        LAST_UPDATE_DATE,
+        LAST_UPDATE_LOGIN,
+        INVENTORY_ITEM_ID,
+        ITEM_CODE,
+        ITEM_UOM,
+        ITEM_DESCRIPTION,
+        START_ACTIVE_DATE,
+        END_ACTIVE_DATE,
+        ORDER_FLAG
+        ENABLED_FLAG
+        FROM hap_inv_inventory_items
+        WHERE 1=1
+        <if test="inventoryItemId!=null">
+            AND INVENTORY_ITEM_ID = #{inventoryItemId}
+        </if>
+        <if test="itemCode!=null">
+            AND ITEM_CODE = #{itemCode}
+        </if>
+        <if test="itemUom!=null">
+            AND ITEM_UOM = #{itemUom}
+        </if>
+        <if test="itemDescription!=null">
+            AND ITEM_DESCRIPTION LIKE '%${itemDescription}%'
+        </if>
+        <if test="startActiveDate!=null">
+            AND START_ACTIVE_DATE = #{startActiveDate}
+        </if>
+        <if test="endActiveDate!=null">
+            AND END_ACTIVE_DATE = #{endActiveDate}
+        </if>
+        <if test="orderFlag!=null">
+            AND ORDER_FLAG = #{orderFlag}
+        </if>
+        <if test="enabledFlag!=null">
+            AND ENABLED_FLAG = #{enabledFlag}
+        </if>
+        ORDER BY ITEM_CODE ASC
+    </select>
 </mapper>

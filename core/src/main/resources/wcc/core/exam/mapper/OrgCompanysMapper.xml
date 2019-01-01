@@ -11,15 +11,28 @@
 
     <select id="select" resultMap="BaseResultMap">
         SELECT CREATED_BY,
-               CREATION_DATE,
-               LAST_UPDATED_BY,
-               LAST_UPDATE_DATE,
-               LAST_UPDATE_LOGIN,
-               COMPANY_ID,
-               COMPANY_NUMBER,
-               COMPANY_NAME,
-               ENABLED_FLAG
+        CREATION_DATE,
+        LAST_UPDATED_BY,
+        LAST_UPDATE_DATE,
+        LAST_UPDATE_LOGIN,
+        COMPANY_ID,
+        COMPANY_NUMBER,
+        COMPANY_NAME,
+        ENABLED_FLAG
         FROM hap_org_companys
-        ORDER BY company_Id ASC
+        WHERE 1=1
+        <if test="companyId!=null">
+            AND COMPANY_ID = #{companyId}
+        </if>
+        <if test="companyNumber!=null">
+            AND COMPANY_NUMBER = #{companyNumber}
+        </if>
+        <if test="companyName!=null">
+            AND COMPANY_NAME LIKE '%${companyName}%'
+        </if>
+        <if test="enabledFlag!=null">
+            AND ENABLED_FLAG = #{enabledFlag}
+        </if>
+        ORDER BY COMPANY_NUMBER ASC
     </select>
 </mapper>
