@@ -38,7 +38,7 @@ CREATE TABLE `hap_om_order_headers` (
   PRIMARY KEY (`HEADER_ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='销售订单头表';
 
---
+-- id自增长
 alter table hap_om_order_headers modify HEADER_ID bigint auto_increment comment '订单头ID';
 alter table hap_om_order_headers AUTO_INCREMENT=1000;
 
