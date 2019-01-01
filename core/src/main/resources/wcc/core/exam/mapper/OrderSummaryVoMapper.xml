@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="wcc.core.exam.mapper.OrderSummaryVoMapper">
+    <select id="selectConditionally" parameterType="wcc.core.exam.dto.OrderSummaryVO"
+            resultType="wcc.core.exam.dto.OrderSummaryVO">
+        SELECT
+        oh.ORDER_NUMBER orderNumber,
+        cm.COMPANY_NAME companyName,
+        ct.CUSTOMER_NAME customerName,
+        oh.ORDER_DATE orderDate,
+        oh.ORDER_STATUS orderStatus,
+        SUM(ol.UNIT_SELLING_PRICE * ol.ORDERD_QUANTITY) totalPrice
+        FROM
+        hap_om_order_headers oh,
+        hap_om_order_lines ol,
+        hap_ar_customers ct,
+        hap_org_companys cm,
+        hap_inv_inventory_items i
+        WHERE oh.COMPANY_ID = cm.COMPANY_ID
+        AND oh.CUSTOMER_ID = ct.CUSTOMER_ID
+        AND oh.HEADER_ID = ol.HEADER_ID
+        AND ol.INVENTORY_ITEM_ID = i.INVENTORY_ITEM_ID
+        <!-- todo modify operator -->
+        <if test="companyId!=null">
+            AND oh.COMPANY_ID = #{companyId}
+        </if>
+        <if test="customerId!=null">
+            AND oh.CUSTOMER_ID = #{customerId}
+        </if>
+        <if test="orderNumber!=null">
+            AND oh.ORDER_NUMBER = #{orderNumber}
+        </if>
+        <if test="inventoryItemId!=null">
+            AND ol.INVENTORY_ITEM_ID = #{inventoryItemId}
+        </if>
+        <if test="orderStatus!=null">
+            AND oh.ORDER_STATUS = #{orderStatus}
+        </if>
+    </select>
+
+</mapper>
