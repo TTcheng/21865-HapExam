@@ -3,11 +3,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="wcc.core.exam.mapper.OrgCompanysMapper">
     <resultMap id="BaseResultMap" type="wcc.core.exam.dto.OrgCompanys">
-        <result column="COMPANY_ID" property="companyId" jdbcType="DECIMAL" />
-        <result column="COMPANY_NUMBER" property="companyNumber" jdbcType="VARCHAR" />
-        <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
-        <result column="ENABLED_FLAG" property="enabledFlag" jdbcType="VARCHAR" />
+        <result column="COMPANY_ID" property="companyId" jdbcType="DECIMAL"/>
+        <result column="COMPANY_NUMBER" property="companyNumber" jdbcType="VARCHAR"/>
+        <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR"/>
+        <result column="ENABLED_FLAG" property="enabledFlag" jdbcType="VARCHAR"/>
     </resultMap>
 
-
+    <select id="select" resultMap="BaseResultMap">
+        SELECT CREATED_BY,
+               CREATION_DATE,
+               LAST_UPDATED_BY,
+               LAST_UPDATE_DATE,
+               LAST_UPDATE_LOGIN,
+               COMPANY_ID,
+               COMPANY_NUMBER,
+               COMPANY_NAME,
+               ENABLED_FLAG
+        FROM hap_org_companys
+        ORDER BY company_Id ASC
+    </select>
 </mapper>
