@@ -4,6 +4,7 @@ import com.hand.hap.mybatis.annotation.ExtensionAttribute;
 import com.hand.hap.system.dto.BaseDTO;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -20,6 +21,8 @@ import java.util.Date;
 public class OrderSummaryVO extends BaseDTO {
     private static final long serialVersionUID = 3741982357569353026L;
 
+    @Id
+    private Long headerId; //订单头ID
     //show fields
     @Length(max = 60)
     private String orderNumber;//订单编号varchar60
@@ -45,7 +48,8 @@ public class OrderSummaryVO extends BaseDTO {
     @Override
     public String toString() {
         return "OrderSummaryVO{" +
-                "orderNumber='" + orderNumber + '\'' +
+                "headerId=" + headerId +
+                ", orderNumber='" + orderNumber + '\'' +
                 ", companyName='" + companyName + '\'' +
                 ", customerName='" + customerName + '\'' +
                 ", orderDate=" + orderDate +

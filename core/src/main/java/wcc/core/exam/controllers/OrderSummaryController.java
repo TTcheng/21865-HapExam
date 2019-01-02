@@ -34,6 +34,7 @@ public class OrderSummaryController extends BaseController {
     public ResponseData querySummary(OrderSummaryVO vo, @RequestParam(defaultValue = DEFAULT_PAGE) int page,
                                      @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int pagesize) {
         List vos = orderSummaryService.selectConditionally(vo, page, pagesize);
+        if (vos.get(0) == null) return new ResponseData();
         return new ResponseData(vos);
     }
 }

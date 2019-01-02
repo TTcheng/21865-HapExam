@@ -2,6 +2,9 @@
 <script src="${base.contextPath}/common/code?orderStatusData=SALE_ORDER_STATUS" type="text/javascript"></script>
 <script type="text/javascript">
     var viewModel = Hap.createGridViewModel("#grid");
+    viewModel.query = function () {
+        $("#grid").data('kendoGrid').dataSource.page(1);
+    }
 </script>
 <body>
 <div id="page-content">
@@ -48,31 +51,25 @@
             </div>
             <div class="col-xs-6"></div>
         </div>
-        <!--
-        <input type="date" id="myBirthday" placeholder='<@spring.message "empdemo.myBirthday"/>'
-               data-bind="value:model.myBirthday">-->
-        <div style="clear:both"></div>
-
         <div class="row pull-left" id="query-btns" style="margin-top: 20px;margin-bottom: 20px">
             <span class="btn btn-default" style="float:right;width:70px"
-                    data-bind="click:exportExcel" type="button"><@spring.message "hap.exportexcel"/>
+                  data-bind="click:exportExcel" type="button"><@spring.message "hap.exportexcel"/>
             </span>
             <span class="btn btn-default" style="float:right;width:70px;margin-right:5px;"
-                    data-bind="click:reset" type="button"><@spring.message "hap.reset"/>
+                  onclick="viewModel.dataSource.reset()" type="button"><@spring.message "hap.reset"/>
             </span>
             <span class="btn btn-default" style="float:right;width:70px;margin-right:5px;"
-                  data-bind="click:query" type="submit"><@spring.message "hap.query"/>
+                  onclick="viewModel.query()" type="submit"><@spring.message "hap.query"/>
             </span>
             <div class="col-xs-9 offset3"></div>
         </div>
-        <script>kendo.bind($('#query-btns'), viewModel);</script>
     </div>
     <div style="clear:both"></div>
-    <script>kendo.bind($('#query-form'), viewModel);</script>
+    <script>kendo.bind($('#query-form,#query-btns'), viewModel);</script>
 
     <!--表格操作按钮-->
     <div class="pull-left" id="toolbar-btn" style="padding-bottom:10px;">
-        <span class="btn btn-primary k-grid-add" style="float:left;margin-right:5px;" data-bind="click:create"><@spring.message "hap.new"/></span>
+        <span class="btn btn-primary k-grid-add" style="float:left;margin-right:5px;" onclick="jumpToDetailPage()"><@spring.message "hap.new"/></span>
     </div>
     <script>kendo.bind($('#toolbar-btn'), viewModel);</script>
     <!--展示表格-->
@@ -123,7 +120,17 @@
             total: 'total',
             model: {
                 id: "headerId",
-                fields: {}
+                fields: {
+                    headerId: {type: 'long'},
+                    companyId: {type: 'long'},
+                    customerId: {type: 'long'},
+                    orderNumber: {type: 'string'},
+                    customerName: {type: 'string'},
+                    companyName: {type: 'string'},
+                    inventoryItemId: {type: 'long'},
+                    totalPrice: {type: 'long'},
+                    orderDate: {type: 'date'}
+                }
             }
         }
     });
@@ -169,6 +176,7 @@
             {
                 field: "orderDate",
                 title: '<@spring.message "omorderheaders.orderdate"/>',
+                format: '{0: yyyy-MM-dd hh:mm:ss}',
                 attributes: {style: "text-align:center"},
                 headerAttributes: {style: "text-align:center"},
                 width: 120
@@ -204,7 +212,7 @@
 
     //为编号选择文本框添加下拉选项
     $("#orderNum").kendoAutoComplete({
-        dataTextField: "orderNum",
+        dataTextField: "orderNumber",
         dataSource: dataSource
     });
 
@@ -231,7 +239,7 @@
     $("#companyName").kendoLov(${lovProvider.getLov(base.contextPath, base.locale,"LOV_ORG_COMPANY")});
     $("#customerName").kendoLov(${lovProvider.getLov(base.contextPath, base.locale,"LOV_AR_CUSTOMER")});
     $("#itemId").kendoLov(${lovProvider.getLov(base.contextPath, base.locale,"LOV_INV_ITEM")});
-
+    kendo.bind($('#companyName,#customerName,#itemId,#orderStatus'), viewModel);
     //新建时调用的界面
     window.editData = function () {
         var url = 'demo_edit.html';
@@ -253,54 +261,22 @@
         dialog.center().open();
     };
 
-    //编辑弹窗函数
-    editFunctionResources = function (myId) {
-        var dialog = $("#dialog").kendoWindow({
-            actions: ["Close"],
-            width: 900,
-            height: 500,
-            title: '<@spring.message "hap.edit"/>',
-            visible: false,
-            iframe: true,
-            modal: true,
-            content: 'demo_edit.html?myId=' + myId,
-            close: function (e) {
-                $("#grid").data("kendoGrid").dataSource.page(1);
-            }
-        }).data("kendoWindow");
-        dialog.center().open();
-    };
+    /**
+     * 跳转到新增页面
+     */
+    function jumpToDetailPage(headerId) {
+        var param = '';
+        if (headerId) param = '?headerId=' + headerId;
+        parent.openTab('ORDER_DETAIL', '<@spring.message "ordertips.orderdetail"/>', '${base.contextPath}/exam/order_detail.html' + param);
+    }
+
     /*function multiQuery() {
         var companyId = $("#companyName").data("kendoLov").value();
         var customerId = $("#customerName").data("kendoLov").value();
         var orderNumber = $("#orderNum").data("kendoAutoComplete").value();
         var itemId = $("#itemId").data("kendoLov").value();
         var orderStatus = $("#orderStatus").data("kendoComboBox").value();
-
-        var submitData = {
-            companyId:companyId,
-            orderNumber:orderNumber,
-            customerId:customerId,
-            itemId:itemId,
-            orderStatus:orderStatus
-        };
-        Hap.blockUI({});
-        $.ajax({
-            url:BaseUrl + "/order/querySummary",
-            type:'post',
-            data:submitData,
-            dataType:'json',
-            success:function (data) {
-
-            },
-            error:function () {
-
-            },
-            complete:function () {
-                Hap.unblockUI({})
-            }
-        })
-    }*/
+       }*/
 
 </script>
 </body>

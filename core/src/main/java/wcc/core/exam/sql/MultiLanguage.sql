@@ -62,6 +62,8 @@ INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.de
 -- 其他提示信息
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.selectdata','zh_CN','选择数据');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.selectdata','en_GB','Choose data');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderdetail','zh_CN','订单详情');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderdetail','en_GB','Order Detail');
 
 select * from sys_prompts where PROMPT_CODE like 'ordertips%';
 

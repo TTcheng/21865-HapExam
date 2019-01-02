@@ -2,9 +2,19 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="wcc.core.exam.mapper.OrderSummaryVoMapper">
-    <select id="selectConditionally" parameterType="wcc.core.exam.dto.OrderSummaryVO"
-            resultType="wcc.core.exam.dto.OrderSummaryVO">
+    <!--<resultMap id="BaseResultMap" type="wcc.core.exam.dto.OrderSummaryVO">-->
+        <!--<result column="headerId" property="headerId" jdbcType="DECIMAL"/>-->
+        <!--<result column="orderNumber" property="orderNumber" jdbcType="VARCHAR"/>-->
+        <!--<result column="companyName" property="companyName" jdbcType="VARCHAR"/>-->
+        <!--<result column="customerName" property="customerName" jdbcType="VARCHAR"/>-->
+        <!--<result column="orderDate" property="orderDate" jdbcType="DATE"/>-->
+        <!--<result column="orderStatus" property="orderStatus" jdbcType="VARCHAR"/>-->
+        <!--<result column="totalPrice" property="totalPrice" jdbcType="DECIMAL"/>-->
+    <!--</resultMap>-->
+    <!--todo 查询一行全为空的问题-->
+    <select id="selectConditionally" parameterType="wcc.core.exam.dto.OrderSummaryVO" resultType="wcc.core.exam.dto.OrderSummaryVO">
         SELECT
+        oh.HEADER_ID headerId,
         oh.ORDER_NUMBER orderNumber,
         cm.COMPANY_NAME companyName,
         ct.CUSTOMER_NAME customerName,
@@ -21,7 +31,6 @@
         AND oh.CUSTOMER_ID = ct.CUSTOMER_ID
         AND oh.HEADER_ID = ol.HEADER_ID
         AND ol.INVENTORY_ITEM_ID = i.INVENTORY_ITEM_ID
-        <!-- todo modify operator -->
         <if test="companyId!=null">
             AND oh.COMPANY_ID = #{companyId}
         </if>

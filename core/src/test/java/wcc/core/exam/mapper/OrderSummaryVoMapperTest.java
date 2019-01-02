@@ -45,7 +45,7 @@ public class OrderSummaryVoMapperTest {
         RequestHelper.setCurrentRequest(request);
 
         orderSummaryVO = new OrderSummaryVO();
-//        orderSummaryVO.setCompanyId(101L);
+        orderSummaryVO.setCompanyId(102L);
     }
 
     @Test
