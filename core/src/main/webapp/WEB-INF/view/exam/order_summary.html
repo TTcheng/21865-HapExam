@@ -1,4 +1,5 @@
 <#include "../include/header.html">
+<script src="${base.contextPath}/common/code?orderStatusData=SALE_ORDER_STATUS" type="text/javascript"></script>
 <script type="text/javascript">
     var viewModel = Hap.createGridViewModel("#grid");
 </script>
@@ -11,21 +12,21 @@
                 <div class="pull-right">
                     <label><@spring.message "orgcompanys.companyName"/></label>
                     <input type="text" id="companyName" placeholder=''
-                           data-bind="value:model.myId,text:model.companyName">
+                           data-bind="value:model.companyId,text:model.companyName">
                 </div>
             </div>
             <div class="col-xs-3">
                 <div class="pull-right">
                     <label><@spring.message "arcustomers.customername"/></label>
                     <input type="text" id="customerName" placeholder=''
-                           data-bind="value:model.myId,text:model.customerName">
+                           data-bind="value:model.customerId,text:model.customerName">
                 </div>
             </div>
             <div class="col-xs-3">
                 <div class="pull-right">
                     <label><@spring.message "omorderheaders.ordernumber"/></label>
                     <input type="text" id="orderNum" placeholder=''
-                           data-bind="value:model.myId,text:model.orderNumber">
+                           data-bind="value:model.orderNumber,text:model.orderNumber">
                 </div>
             </div>
             <div class="col-xs-3"></div>
@@ -35,37 +36,36 @@
                 <div class="pull-right">
                     <label><@spring.message "invinventoryitems.commonname"/></label>
                     <input type="text" id="itemId" placeholder=''
-                           data-bind="value:model.myId,text:model.inventoryItemId">
+                           data-bind="value:model.inventoryItemId,text:model.inventoryItemId">
                 </div>
             </div>
             <div class="col-xs-3">
                 <div class="pull-right">
-                    <label for="myAge"><@spring.message "omorderheaders.orderstatus"/></label>
-                    <select id="myAge" data-value-primitive="true"
-                            data-bind="value: model.myAge"></select>
+                    <label for="orderStatus"><@spring.message "omorderheaders.orderstatus"/></label>
+                    <select id="orderStatus" data-value-primitive="true"
+                            data-bind="value: model.orderStatus"></select>
                 </div>
             </div>
             <div class="col-xs-6"></div>
         </div>
         <!--
-        <input type="text" id="myName" placeholder='<@spring.message "empdemo.myName"/>'
-               data-bind="value:model.myId,text:model.myName">
         <input type="date" id="myBirthday" placeholder='<@spring.message "empdemo.myBirthday"/>'
                data-bind="value:model.myBirthday">-->
         <div style="clear:both"></div>
 
-        <div class="row pull-left" style="margin-top: 20px;margin-bottom: 20px">
-                <button class="btn btn-default" style="float:right;width:70px"
-                        data-bind="click:reset" type="button"><@spring.message "hap.reset"/>
-                </button>
-                <button class="btn btn-default" style="float:right;width:70px;margin-right:5px;"
-                        data-bind="click:query" type="submit"><@spring.message "hap.query"/>
-                </button>
-                <button class="btn btn-default" style="float:right;width:70px;margin-right:5px;"
-                        data-bind="click:query" type="submit"><@spring.message "hap.query"/>
-                </button>
+        <div class="row pull-left" id="query-btns" style="margin-top: 20px;margin-bottom: 20px">
+            <span class="btn btn-default" style="float:right;width:70px"
+                    data-bind="click:exportExcel" type="button"><@spring.message "hap.exportexcel"/>
+            </span>
+            <span class="btn btn-default" style="float:right;width:70px;margin-right:5px;"
+                    data-bind="click:reset" type="button"><@spring.message "hap.reset"/>
+            </span>
+            <span class="btn btn-default" style="float:right;width:70px;margin-right:5px;"
+                  data-bind="click:query" type="submit"><@spring.message "hap.query"/>
+            </span>
             <div class="col-xs-9 offset3"></div>
         </div>
+        <script>kendo.bind($('#query-btns'), viewModel);</script>
     </div>
     <div style="clear:both"></div>
     <script>kendo.bind($('#query-form'), viewModel);</script>
@@ -91,7 +91,7 @@
                 type: "POST",
                 dataType: "json"
             },
-            update: {
+            /*update: {
                 url: BaseUrl + "/hap/om/order/headers/submit",
                 type: "POST",
                 contentType: "application/json"
@@ -105,7 +105,7 @@
                 url: BaseUrl + "/hap/om/order/headers/submit",
                 type: "POST",
                 contentType: "application/json"
-            },
+            },*/
             parameterMap: function (options, type) {
                 if (type !== "read" && options.models) {
                     var datas = Hap.prepareSubmitParameter(options, type)
@@ -148,32 +148,54 @@
             {
                 field: "orderNumber",
                 title: '<@spring.message "omorderheaders.ordernumber"/>',
+                attributes: {style: "text-align:center"},
+                headerAttributes: {style: "text-align:center"},
                 width: 120
             },
             {
                 field: "companyName",
                 title: '<@spring.message "orgcompanys.companyname"/>',
+                attributes: {style: "text-align:center"},
+                headerAttributes: {style: "text-align:center"},
                 width: 120
             },
             {
                 field: "customerName",
                 title: '<@spring.message "arcustomers.customername"/>',
+                attributes: {style: "text-align:center"},
+                headerAttributes: {style: "text-align:center"},
                 width: 120
             },
             {
                 field: "orderDate",
                 title: '<@spring.message "omorderheaders.orderdate"/>',
+                attributes: {style: "text-align:center"},
+                headerAttributes: {style: "text-align:center"},
                 width: 120
             },
             {
                 field: "orderStatus",
                 title: '<@spring.message "omorderheaders.orderstatus"/>',
-                width: 120
+                attributes: {style: "text-align:center"},
+                headerAttributes: {style: "text-align:center"},
+                width: 120,
+                template: function (model) {
+                    var v = model.orderStatus;
+                    $.each(orderStatusData, function (index, item) {
+                        if ((item.value || '').toUpperCase() === (v || '').toUpperCase()) {
+                            v = item.meaning;
+                            return v;
+                        }
+                    });
+                    return v;
+                }
             },
 
             {
                 field: "totalPrice",
                 title: '<@spring.message "omorderheaders.totalprice"/>',
+                attributes: {style: "text-align:center"},
+                headerAttributes: {style: "text-align:center"},
                 width: 120
             },
         ],
@@ -181,28 +203,18 @@
     });
 
     //为编号选择文本框添加下拉选项
-    $("#itemId,#companyName,#clientName,#orderNum").kendoAutoComplete({
-        dataTextField: $(this).id,
+    $("#orderNum").kendoAutoComplete({
+        dataTextField: "orderNum",
         dataSource: dataSource
     });
 
     //自动根据当前屏幕大小调整表格
     Hap.autoResizeGrid("#grid");
-    //设置年龄下拉框
-    $("#myAge").kendoComboBox({
-        dataTextField: "myAge",
-        dataValueField: "myAge",
-        animation: {
-            close: {
-                effects: "fadeOut zoom:out",
-                duration: 300
-            },
-            open: {
-                effects: "fadeIn zoom:in",
-                duration: 300
-            }
-        },
-        dataSource: dataSource
+    //设置订单状态下拉框
+    $("#orderStatus").kendoComboBox({
+        dataTextField: "meaning",
+        dataValueField: "value",
+        dataSource: orderStatusData
     });
     //设置时间选择器
     $("#myBirthday").kendoDatePicker({
@@ -216,15 +228,9 @@
             // 事件
         }
     });
-    $("#myName").kendoLov(${lovProvider.getLov(base.contextPath, base.locale,"EMPDEMO_LOV")});
-
-    //按回车时查询
-    $('#query-form input').keydown(function (e) {
-        if (e.keyCode == 13) {
-            e.target.blur();
-            viewModel.query(e);
-        }
-    });
+    $("#companyName").kendoLov(${lovProvider.getLov(base.contextPath, base.locale,"LOV_ORG_COMPANY")});
+    $("#customerName").kendoLov(${lovProvider.getLov(base.contextPath, base.locale,"LOV_AR_CUSTOMER")});
+    $("#itemId").kendoLov(${lovProvider.getLov(base.contextPath, base.locale,"LOV_INV_ITEM")});
 
     //新建时调用的界面
     window.editData = function () {
@@ -264,6 +270,37 @@
         }).data("kendoWindow");
         dialog.center().open();
     };
+    /*function multiQuery() {
+        var companyId = $("#companyName").data("kendoLov").value();
+        var customerId = $("#customerName").data("kendoLov").value();
+        var orderNumber = $("#orderNum").data("kendoAutoComplete").value();
+        var itemId = $("#itemId").data("kendoLov").value();
+        var orderStatus = $("#orderStatus").data("kendoComboBox").value();
+
+        var submitData = {
+            companyId:companyId,
+            orderNumber:orderNumber,
+            customerId:customerId,
+            itemId:itemId,
+            orderStatus:orderStatus
+        };
+        Hap.blockUI({});
+        $.ajax({
+            url:BaseUrl + "/order/querySummary",
+            type:'post',
+            data:submitData,
+            dataType:'json',
+            success:function (data) {
+
+            },
+            error:function () {
+
+            },
+            complete:function () {
+                Hap.unblockUI({})
+            }
+        })
+    }*/
 
 </script>
 </body>
