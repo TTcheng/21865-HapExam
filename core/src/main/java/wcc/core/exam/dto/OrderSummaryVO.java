@@ -136,4 +136,12 @@ public class OrderSummaryVO extends BaseDTO {
     public void setInventoryItemId(Long inventoryItemId) {
         this.inventoryItemId = inventoryItemId;
     }
+
+    public Long getHeaderId() {
+        return headerId;
+    }
+
+    public void setHeaderId(Long headerId) {
+        this.headerId = headerId;
+    }
 }

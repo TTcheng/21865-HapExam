@@ -1,5 +1,6 @@
 package wcc.core.exam.controllers;
 
+import com.hand.hap.core.IRequest;
 import com.hand.hap.system.controllers.BaseController;
 import com.hand.hap.system.dto.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import wcc.core.exam.dto.OrderDetailVo;
 import wcc.core.exam.dto.OrderSummaryVO;
-import wcc.core.exam.service.OrderSummaryService;
+import wcc.core.exam.service.OrderService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -24,17 +27,27 @@ import java.util.List;
  */
 @RequestMapping(value = "/order")
 @Controller
-public class OrderSummaryController extends BaseController {
+public class OrderController extends BaseController {
 
     @Autowired
-    private OrderSummaryService orderSummaryService;
+    private OrderService orderService;
 
     @RequestMapping("/querySummary")
     @ResponseBody
     public ResponseData querySummary(OrderSummaryVO vo, @RequestParam(defaultValue = DEFAULT_PAGE) int page,
                                      @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int pagesize) {
-        List vos = orderSummaryService.selectConditionally(vo, page, pagesize);
-        if (vos.get(0) == null) return new ResponseData();
+        List vos = orderService.selectSummary(vo, page, pagesize);
+        if (vos.size() == 0 || vos.get(0) == null) return new ResponseData();
+        return new ResponseData(vos);
+    }
+
+    @ResponseBody
+    @RequestMapping("/queryDetail")
+    public ResponseData queryDetail(OrderDetailVo vo, @RequestParam(defaultValue = DEFAULT_PAGE) int page,
+                                    @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int pagesize, HttpServletRequest request) {
+        IRequest requestContext = createRequestContext(request);
+        List vos = orderService.getDetail(requestContext, vo, page, pagesize);
+        if (vos.size() == 0 || vos.get(0) == null) return new ResponseData();
         return new ResponseData(vos);
     }
 }

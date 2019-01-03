@@ -44,11 +44,11 @@ INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderheaders.
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderheaders.ordernumber','en_GB','Order Number');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderheaders.orderstatus','zh_CN','订单状态');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderheaders.orderstatus','en_GB','Order Status');
-INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderheaders.totalprice','zh_CN','订单金额');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderheaders.totalprice','zh_CN','订单总金额');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderheaders.totalprice','en_GB','Total price');
 
 -- HAP_OM _ORDER_LINES 订单行表字段描述
-INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.linenumber','zh_CN','行号！');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.linenumber','zh_CN','行号');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.linenumber','en_GB','Line Number');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.quantity','zh_CN','数量');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.quantity','en_GB','Quantity');
@@ -58,14 +58,38 @@ INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.se
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.sellingprice','en_GB','Selling Price');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.description','zh_CN','备注');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.description','en_GB','Description');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.orderquantityuom','zh_CN','产品单位');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.orderquantityuom','en_GB','Product UOM');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.addition1','zh_CN','附加信息1');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.addition1','en_GB','Addition1');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.addition2','zh_CN','附加信息2');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.addition2','en_GB','Addition2');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.addition3','zh_CN','附加信息3');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.addition3','en_GB','Addition3');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.addition4','zh_CN','附加信息4');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.addition4','en_GB','Addition4');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.addition5','zh_CN','附加信息5');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('omorderlines.addition5','en_GB','Addition5');
 
 -- 其他提示信息
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.selectdata','zh_CN','选择数据');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.selectdata','en_GB','Choose data');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderdetail','zh_CN','订单详情');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderdetail','en_GB','Order Detail');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderquery','zh_CN','订单查询');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderquery','en_GB','Order Query');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderprice','zh_CN','金额');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderprice','en_GB','Amount');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.approve','zh_CN','审批');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.approve','en_GB','Approve');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.reject','zh_CN','拒绝');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.reject','en_GB','Reject');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.deleteall','zh_CN','整单删除');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.deleteall','en_GB','Delete All');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.voucherprint','zh_CN','单据打印');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.voucherprint','en_GB','Voucher Print');
 
-select * from sys_prompts where PROMPT_CODE like 'ordertips%';
+select * from sys_prompts where PROMPT_CODE = 'ordertips.orderquery';
 
 
 -- validation
