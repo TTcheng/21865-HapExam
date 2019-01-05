@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wcc.core.exam.dto.*;
 import wcc.core.exam.mapper.OrderSummaryVoMapper;
-import wcc.core.exam.service.IInvInventoryItemsService;
-import wcc.core.exam.service.IOmOrderLinesService;
-import wcc.core.exam.service.OrderService;
+import wcc.core.exam.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +27,19 @@ import java.util.List;
 public class OrderServiceImpl extends BaseServiceImpl<OrderSummaryVO> implements OrderService {
 
     @Autowired
+    IOmOrderHeadersService headersService;
+
+    @Autowired
     IOmOrderLinesService orderLinesService;
 
     @Autowired
     IInvInventoryItemsService inventoryItemsService;
+
+    @Autowired
+    IOrgCompanysService companysService;
+
+    @Autowired
+    IArCustomersService customersService;
 
     /**
      * 条件查询订单汇总信息
@@ -43,9 +50,24 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderSummaryVO> implements
      * @date 2019/1/1 13:47
      **/
     @Override
-    public List<OrderSummaryVO> selectSummary(OrderSummaryVO orderSummaryVO, int page, int pagesize) {
+    public List<OrderSummaryVO> selectSummary(IRequest request,OrderSummaryVO orderSummaryVO, int page, int pagesize) {
         PageHelper.startPage(page, pagesize);
-        return ((OrderSummaryVoMapper) this.mapper).selectConditionally(orderSummaryVO);
+        List<OrderSummaryVO> vos = ((OrderSummaryVoMapper) this.mapper).selectConditionally(orderSummaryVO);
+        for (OrderSummaryVO vo : vos) {
+            OrgCompanys companysCondtion = new OrgCompanys();
+            companysCondtion.setCompanyId(vo.getCompanyId());
+            OrgCompanys company = companysService.selectByPrimaryKey(request,companysCondtion);
+            if (company!=null){
+                vo.setCompanyName(company.getCompanyName());
+            }
+            ArCustomers customersCondtion = new ArCustomers();
+            customersCondtion.setCustomerId(vo.getCustomerId());
+            ArCustomers customer = customersService.selectByPrimaryKey(request,customersCondtion);
+            if (customer!=null){
+                vo.setCustomerName(customer.getCustomerName());
+            }
+        }
+        return vos;
     }
 
     @Override
@@ -57,17 +79,27 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderSummaryVO> implements
             detailVo.setSuperDto(line);
             InvInventoryItems condition = new InvInventoryItems();
             condition.setInventoryItemId(line.getInventoryItemId());
-            List<InvInventoryItems> list = inventoryItemsService.select(request, condition, 0, 1);
+            List<InvInventoryItems> list = inventoryItemsService.select(request, condition, 1, 1);
             if (list.size() > 0) {
                 InvInventoryItems item = list.get(0);
-                assert item != null;
-                detailVo.setItemCode(item.getItemCode());
-                detailVo.setItemDescription(item.getItemDescription());
-                detailVo.setItemUom(item.getItemUom());
+                if (item != null) {
+                    detailVo.setItemCode(item.getItemCode());
+                    detailVo.setItemDescription(item.getItemDescription());
+                    detailVo.setItemUom(item.getItemUom());
+                }
             }
             detailVo.setOrderPrice(detailVo.getOrderdQuantity() * detailVo.getUnitSellingPrice());
             results.add(detailVo);
         }
         return results;
+    }
+
+    @Override
+    public boolean save(OmOrderHeaders header, List<OmOrderLines> lines, IRequest request) {
+        headersService.insert(request, header);
+        for (OmOrderLines line : lines) {
+            orderLinesService.insert(request, line);
+        }
+        return true;
     }
 }

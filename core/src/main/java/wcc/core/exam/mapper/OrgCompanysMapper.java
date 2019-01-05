@@ -8,4 +8,7 @@ import java.util.List;
 public interface OrgCompanysMapper extends Mapper<OrgCompanys>{
     @Override
     List<OrgCompanys> select(OrgCompanys record);
+
+    @Override
+    OrgCompanys selectByPrimaryKey(Object key);
 }

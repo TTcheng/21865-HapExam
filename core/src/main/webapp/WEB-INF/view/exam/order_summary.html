@@ -142,7 +142,7 @@
         navigatable: false,
         selectable: 'multiple, rowbox',
         excel: {
-            fileName: 'SO_ORDER_' + new Date().toISOString().split('T')[0].replace(/\-/g,'') + '.xlsx'
+            fileName: 'SO_ORDER_' + new Date().toISOString().split('T')[0].replace(/\-/g, '') + '.xlsx'
         },
         dataBound: function () {
             if (parent.autoResizeIframe) {
@@ -243,7 +243,13 @@
         }
     });
     $("#companyName").kendoLov(${lovProvider.getLov(base.contextPath, base.locale,"LOV_ORG_COMPANY")});
-    $("#customerName").kendoLov(${lovProvider.getLov(base.contextPath, base.locale,"LOV_AR_CUSTOMER")});
+    $("#customerName").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale,"LOV_AR_CUSTOMER")}, {
+        query: function (e) {
+            var companyId = $('#companyName').data('kendoLov').value();
+            if ('' !== companyId || '')
+                e.param['companyId'] = companyId;
+        }
+    }));
     $("#itemId").kendoLov(${lovProvider.getLov(base.contextPath, base.locale,"LOV_INV_ITEM")});
     kendo.bind($('#companyName,#customerName,#itemId,#orderStatus'), viewModel);
     //新建时调用的界面
@@ -275,15 +281,6 @@
         if (headerId) param = '?headerId=' + headerId;
         parent.openTab('ORDER_DETAIL', '<@spring.message "ordertips.orderdetail"/>', '${base.contextPath}/exam/order_detail.html' + param);
     }
-
-    /*function multiQuery() {
-        var companyId = $("#companyName").data("kendoLov").value();
-        var customerId = $("#customerName").data("kendoLov").value();
-        var orderNumber = $("#orderNum").data("kendoAutoComplete").value();
-        var itemId = $("#itemId").data("kendoLov").value();
-        var orderStatus = $("#orderStatus").data("kendoComboBox").value();
-       }*/
-
 </script>
 </body>
 </html>

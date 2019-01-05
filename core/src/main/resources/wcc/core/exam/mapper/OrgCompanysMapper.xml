@@ -35,4 +35,19 @@
         </if>
         ORDER BY COMPANY_NUMBER ASC
     </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT CREATED_BY,
+        CREATION_DATE,
+        LAST_UPDATED_BY,
+        LAST_UPDATE_DATE,
+        LAST_UPDATE_LOGIN,
+        COMPANY_ID,
+        COMPANY_NUMBER,
+        COMPANY_NAME,
+        ENABLED_FLAG
+        FROM hap_org_companys
+        WHERE COMPANY_ID = #{companyId}
+    </select>
+    <!--UPDATE hap_om_order_headers SET REQUEST_ID = ?,PROGRAM_ID = ?,OBJECT_VERSION_NUMBER=OBJECT_VERSION_NUMBER+1,LAST_UPDATED_BY = ?,LAST_UPDATE_DATE=CURRENT_TIMESTAMP,LAST_UPDATE_LOGIN = ?,ORDER_NUMBER = ?,COMPANY_ID = ?,ORDER_DATE = ?,ORDER_STATUS = ?,CUSTOMER_ID = ? WHERE HEADER_ID = ?-->
 </mapper>

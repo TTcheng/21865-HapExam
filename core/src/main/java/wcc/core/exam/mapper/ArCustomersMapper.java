@@ -8,4 +8,7 @@ import java.util.List;
 public interface ArCustomersMapper extends Mapper<ArCustomers>{
     @Override
     List<ArCustomers> select(ArCustomers record);
+
+    @Override
+    ArCustomers selectByPrimaryKey(Object key);
 }

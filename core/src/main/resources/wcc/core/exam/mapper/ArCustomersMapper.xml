@@ -41,4 +41,18 @@
         ORDER BY CUSTOMER_NUMBER ASC
     </select>
 
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT CUSTOMER_ID,
+               CUSTOMER_NUMBER,
+               CUSTOMER_NAME,
+               COMPANY_ID,
+               ENABLED_FLAG,
+               CREATION_DATE,
+               CREATED_BY,
+               LAST_UPDATED_BY,
+               LAST_UPDATE_DATE,
+               LAST_UPDATE_LOGIN
+        FROM hap_ar_customers
+        WHERE CUSTOMER_ID = #{customerId}
+    </select>
 </mapper>

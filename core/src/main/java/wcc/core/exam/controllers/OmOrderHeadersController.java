@@ -32,6 +32,17 @@ public class OmOrderHeadersController extends BaseController {
         return service.selectByPrimaryKey(requestContext, dto);
     }
 
+    @RequestMapping(value = "/hap/om/order/headers/updateOne", consumes = "application/*")
+    @ResponseBody
+    public OmOrderHeaders updateOne(OmOrderHeaders dto, String __status, HttpServletRequest request) {
+        IRequest requestContext = createRequestContext(request);
+        if ("add".equals(__status)) {
+            return service.insert(requestContext, dto);
+//            return new ResponseData(service.select(requestContext, dto, 1, 1));
+        }
+        return service.updateByPrimaryKeySelective(requestContext, dto);
+    }
+
 
     @RequestMapping(value = "/hap/om/order/headers/query")
     @ResponseBody

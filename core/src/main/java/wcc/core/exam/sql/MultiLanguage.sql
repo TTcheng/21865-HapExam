@@ -80,6 +80,22 @@ INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.order
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderquery','en_GB','Order Query');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderprice','zh_CN','金额');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.orderprice','en_GB','Amount');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.main','zh_CN','主要');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.main','en_GB','Main');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.other','zh_CN','其他');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.other','en_GB','Other');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.updating','zh_CN','更新中...');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.updating','en_GB','Updating');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.printpdf','zh_CN','·PDF打印');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.printpdf','en_GB','·PrintPDF');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.confirmdelete','zh_CN','确定要删除吗？');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.confirmdelete','en_GB','Are you sure that you want to delete them all?');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.operationcancled','zh_CN','您取消此次操作');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.operationcancled','en_GB','Operation canceled!');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.deleteall','zh_CN','已是最后一条，要删除整个订单吗？');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.deleteall','en_GB','This is the last one,do you want to delete the whole order?');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.headerfirst','zh_CN','请先保存订单头！');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('ordertips.headerfirst','en_GB','Please save the header data first!');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.approve','zh_CN','审批');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.approve','en_GB','Approve');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.reject','zh_CN','拒绝');
@@ -89,7 +105,17 @@ INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.delet
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.voucherprint','zh_CN','单据打印');
 INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('orderbtns.voucherprint','en_GB','Voucher Print');
 
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('hap.validation.invalid_form','zh_CN','表单数据非法，请检查！');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('hap.validation.invalid_form','en_GB','Oops! There is invalid data in the form');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('hap.validation.datefrom2016','zh_CN','只能选择2016年之后的日期');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('hap.validation.datefrom2016','en_GB','Oops! only date after 2016-1-1 can be choose!');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('hap.validation.number20','zh_CN','{0}只包含数字,且长度不能超过20位');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('hap.validation.number20','en_GB','{0}only contains number and length must shorter than 20');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('hap.validation.numberletter64','zh_CN','{0}只包含字母和数字,且长度不能超过64位');
+INSERT INTO sys_prompts(prompt_code, lang, description) VALUES ('hap.validation.numberletter64','en_GB','{0}only contains number and letter and length must shorter than 64');
+
 select * from sys_prompts where PROMPT_CODE = 'ordertips.orderquery';
+SELECT * FROM sys_prompts where DESCRIPTION = '其他';
 
 
 -- validation

@@ -52,7 +52,6 @@ public class OmOrderLines extends BaseDTO {
      @NotNull
      private Long unitSellingPrice; //销售单价
 
-     @NotEmpty
      @Length(max = 240)
      private String description; //备注
 
